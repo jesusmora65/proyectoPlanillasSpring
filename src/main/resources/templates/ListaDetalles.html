@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="Layout/plantilla::head">
+        <title>Lista de detalles de planilla</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <header th:replace="Layout/plantilla::header"></header>
+        <div class="container">
+            <div class="card-header">
+                <h2>Lista de detalles de planilla</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div th:if="${detalles != null and !detalles.empty}" class="col">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Empleado</th>
+                                    <th>Puesto De trabajo</th>
+                                    <th>Salario Base</th>
+                                    <th>Montos de bonos</th>
+                                    <th>Salario Bruto</th>
+                                    <th>Montos de deducciones</th>
+                                    <th>Salario Neto</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item:${detalles}">
+                                    <td th:text="${item.codigodetalle}"></td>
+                                    <td th:text="${item.empleado.nombre + ' ' + item.empleado.primerapellido + ' ' + item.empleado.segundoapellido}"></td>
+                                    <td th:text="${item.puestoempleado}"></td>
+                                    <td th:text="${new java.text.DecimalFormat('₡#,##0.00').format(item.salariobase)}"></td>
+                                    <td th:text="${new java.text.DecimalFormat('₡#,##0.00').format(item.montobonos)}"></td>
+                                    <td th:text="${new java.text.DecimalFormat('₡#,##0.00').format(item.salariobruto)}"></td>
+                                    <td th:text="${new java.text.DecimalFormat('₡#,##0.00').format(item.montodeducciones)}"></td>
+                                    <td th:text="${new java.text.DecimalFormat('₡#,##0.00').format(item.salarioneto)}"></td>
+                                    <td>
+                                        <a th:href="@{/verDetallesAmpliados}+${item.codigodetalle}" class="btn btn-link">
+                                            <i class="fas fa-window-maximize"></i> Ver detalles ampliados
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

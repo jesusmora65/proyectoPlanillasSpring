@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="Layout/plantilla::head">
+        <title>Lista de planillas</title>
+    </head>
+    <body>
+        <header th:replace="Layout/plantilla::header"></header>
+        <div class="container">
+            <div class="card-header">
+                <h2>Lista de planillas</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <form method="post" th:action="@{/buscarplanilla}" >
+                            <div class="input-group">
+                                <label>Buscar por tipo</label>
+                                <select name="tipoplanilla" class="form-control">
+                                    <option selected="true" value="Ordinaria">Planilla ordinaria</option>
+                                    <option value="Extraordinaria">Planilla extraordinaria</option>
+                                </select>    
+                                <input type="submit" value="Buscar planilla" class="btn btn-success"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-success" th:href="@{/calculo}">Calcular planilla</a>
+                    </div>
+                </div>
+                <br/>
+                <div class="row mt-3" th:if="${mensaje!=null}">
+                    <div class="col">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span th:text="${mensaje}"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div th:if="${planillas != null and !planillas.empty}" class="col">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Mes</th>
+                                    <th>Año</th>
+                                    <th>Tipo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="planilla:${planillas}">
+                                    <td th:text="${planilla.codigoplanilla}"></td>
+                                    <td th:text="${planilla.mesplanilla}"></td>
+                                    <td th:text="${planilla.anioplanilla}"></td>
+                                    <td th:text="${planilla.tipoplanilla}"></td>
+                                    <td>
+                                        <a class="btn btn-warning" th:href="@{/cancelarPlanilla(codigoplanilla=${planilla.codigoplanilla})}">
+                                            <i class="fas fa-window-close"></i> Cancelar
+                                        </a>
+                                        <a class="btn btn-danger" th:href="@{/anular(codigoplanilla=${planilla.codigoplanilla})}">
+                                            <i class="far fa-trash-alt"></i> Anular
+                                        </a>
+                                        <a class="btn btn-info" th:href="@{/verDetalles}+${planilla.codigoplanilla}">
+                                            <i class="fas fa-window-maximize"></i> Ver detalles
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${planillas == null or planillas.empty}" class="col">
+                        <p class="alert alert-warning">No se han calculado planillas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

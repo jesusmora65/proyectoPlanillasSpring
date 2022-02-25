@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="Layout/plantilla::head">
+        <title>Lista de empleados</title>
+    </head>
+    <body>
+        <header th:replace="Layout/plantilla::header"></header>
+        <div class="container">
+            <div class="card-header">
+                <h2>Lista de empleados</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <form method="post" th:action="@{/buscarempleado}" >
+                            <div class="input-group">
+                                <input type="text" name="nombre" class="form-control" placeholder="Escriba un nombre o apellido"/>            
+                                <input type="submit" value="Buscar empleado" class="btn btn-success"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-success" th:href="@{/agregar}">Agregar empleado</a>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div th:if="${empleados != null and !empleados.empty}" class="col">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Identificación</th>
+                                    <th>Nombre</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="empleados:${empleados}">
+                                    <td th:text="${empleados.codigoempleado}"></td>
+                                    <td th:text="${empleados.identificacion}"></td>
+                                    <td th:text="${empleados.nombre + ' ' + empleados.primerapellido + ' ' + empleados.segundoapellido}"></td>
+                                    <td th:text="${empleados.telefono}"></td>
+                                    <td th:text="${empleados.correo}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${empleados == null or empleados.empty}" class="col">
+                        <p class="alert alert-warning">No existen empleados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

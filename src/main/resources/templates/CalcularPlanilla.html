@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="Layout/plantilla::head">
+        <title>Cálculo de planillas</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <header th:replace="Layout/plantilla::header"></header>
+        <section>
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col mx-auto">
+                        <div class="card-header d-flex justify-content-around">
+                            <h3>Cálculo de planillas</h3>
+                            <div>
+                                <label class="form-label">Fecha:</label>
+                                <h5 th:text="${#dates.format(fecha, 'dd/MM/yyyy')}"></h5>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex justify-content-around">
+                            <form method="post" th:action="@{/calcularPlanilla}">
+                                <div class="row mt-3">
+                                    <div class="col-5">
+                                        <label class="form-label" for="tipoPlanilla">Tipo de planilla</label>
+                                        <select class="form-control" name="tipoPlanilla">
+                                            <option selected="true" value="Ordinaria">Planilla ordinaria</option>
+                                            <option value="Extraordinaria">Planilla extraordinaria</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-5 mt-4 ml-5">
+                                        <input type="submit" value="Realizar cálculo de planilla" class="btn btn-success"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="mt-5">
+                                <a th:href="@{/planillas}" class="btn btn-danger">Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

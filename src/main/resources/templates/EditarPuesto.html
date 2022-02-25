@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="Layout/plantilla::head">
+        <title>Mantenimiento de puestos de trabajo</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <header th:replace="Layout/plantilla::header"></header>
+        <section>
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col mx-auto">
+                        <div class="card-header">
+                            <h3>Mantenimiento de Puestos de trabajo</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" th:action="@{/guardarPuesto}" th:object="${puesto_trabajo}">
+                                <input type="hidden" name="codigopuesto" th:field="*{codigopuesto}"/>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <label for="nombrepuesto" class="form-label">Nombre</label>
+                                        <input type="text" name="nombrepuesto" class="form-control" th:field="*{nombrepuesto}"/>
+                                        <span class="font-italic text-danger" 
+                                              th:if="${#fields.hasErrors('nombrepuesto')}" 
+                                              th:errors="*{nombrepuesto}">
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="categoriapuesto" class="form-label">Categoría</label>
+                                        <select name="categoriapuesto" class="form-control" th:field="*{categoriapuesto}">
+                                            <option th:value="1" th:selected="true">Categoría 1</option>
+                                            <option th:value="2">Categoría 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <label for="salariobase" class="form-label">Salario Base</label>
+                                        <input type="number" step="0.01" name="salariobase" class="form-control" th:field="*{salariobase}"/>
+                                        <span class="font-italic text-danger" 
+                                              th:if="${#fields.hasErrors('salariobase')}" 
+                                              th:errors="*{salariobase}">
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="gradoacademicominimo" class="form-label">Grado Académico</label>
+                                        <select name="gradoacademicominimo" class="form-control" th:field="*{gradoacademicominimo}">
+                                            <option th:value="'Técnico'" th:selected="true">Técnico</option>
+                                            <option th:value="'Pre-Grado'">Pre-Grado</option>
+                                            <option th:value="'Bachiller'">Bachiller</option>
+                                            <option th:value="'Licenciatura'">Licenciatura</option>
+                                            <option th:value="'Post-Grado'">Post-Grado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col d-flex justify-content-around">
+                                        <input type="submit" name="guardar" value="Guardar" class="btn btn-primary"/>
+                                        <a th:href="@{/puestostrabajo}" class="btn btn-danger">Regresar</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="Layout/plantilla::head">
+        <title>Información ampliada del detalle de planilla</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <header th:replace="Layout/plantilla::header"></header>
+        <div class="container">
+            <div class="card-header">
+                <h2>Información ampliada del detalle de planilla</h2>
+            </div>
+            <div class="card-body">
+                <div th:object="${detalles_planilla}">
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <label class="form-label">Nombre del empleado</label>
+                            <h4 th:text="*{empleado.nombre} + ' ' + *{empleado.primerapellido} + ' ' + *{empleado.segundoapellido}"></h4>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Fecha de ingreso</label><!-- Aquí por alguna razón que no comprendo cuando hago la referencia al campo con el * no me funciona porque me da un error al quere darle formato a la fecha -->
+                            <h4 th:text="${#calendars.format(detalles_planilla.empleado.fechaingreso, 'dd/MMM/yyyy')}"></h4>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Puesto de trabajo</label>
+                            <h4 th:text="*{puestoempleado}"></h4>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <label class="form-label">Salario Base</label>
+                            <h4 th:text="*{new java.text.DecimalFormat('₡#,##0.00').format(salariobase)}"></h4>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Salario Bruto</label>
+                            <h4 th:text="*{new java.text.DecimalFormat('₡#,##0.00').format(salariobruto)}"></h4>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label" for="salarioNeto">Salario Neto</label>
+                            <h4 th:text="*{new java.text.DecimalFormat('₡#,##0.00').format(salarioneto)}"></h4>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label class="form-label">Monto total en bonos</label>
+                            <h4 th:text="*{new java.text.DecimalFormat('₡#,##0.00').format(montobonos)}"></h4>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Monto total en deducciones</label>
+                            <h4 th:text="*{new java.text.DecimalFormat('₡#,##0.00').format(montodeducciones)}"></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div th:if="${bonos != null and !bonos.empty}" class="col-6">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del bono</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item:${bonos}">
+                                    <td th:text="${item.bono.nombrebono}"></td>
+                                    <td th:text="${new java.text.DecimalFormat('₡#,##0.00').format(item.montobono)}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${deducciones != null and !deducciones.empty}" class="col-6">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del bono</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item:${deducciones}">
+                                    <td th:text="${item.deduccion.nombrededuccion}"></td>
+                                    <td th:text="${new java.text.DecimalFormat('₡#,##0.00').format(item.montodeduccion)}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

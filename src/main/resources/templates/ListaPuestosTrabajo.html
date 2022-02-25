@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="Layout/plantilla::head">
+        <title>Lista de Puestos de Trabajo</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <header th:replace="Layout/plantilla::header"></header>
+        <div class="container">
+            <div class="card-header">
+                <h2>Lista de Puestos de Trabajo</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <form method="post" th:action="@{/buscarpuesto}" >
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="buscar" placeholder="Buscar por nombre o grado académico"/>     
+                                <input type="submit" value="Buscar Puesto de trabajo" class="btn btn-success"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-success" th:href="@{/agregarpuesto}">Agregar Puesto de Trabajo</a>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div th:if="${puestostrabajo != null and !puestostrabajo.empty}" class="col">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Salario Base</th>
+                                    <th>Grado Académico</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="puesto_trabajo:${puestostrabajo}">
+                                    <td th:text="${puesto_trabajo.codigopuesto}"></td>
+                                    <td th:text="${puesto_trabajo.nombrepuesto}"></td>
+                                    <td th:text="${puesto_trabajo.categoriapuesto}"></td>
+                                    <td th:text="${new java.text.DecimalFormat('₡#,##0.00').format(puesto_trabajo.salariobase)}"></td>
+                                    <td th:text="${puesto_trabajo.gradoacademicominimo}"></td>
+                                    <td>
+                                        <a th:href="@{/editarPuesto/}+${puesto_trabajo.codigopuesto}" class="btn btn-primary">
+                                            <i class="fas fa-pen"></i> Editar
+                                        </a> 
+                                        <a th:href="@{/deshabilitarPuesto(codigopuesto=${puesto_trabajo.codigopuesto})}" class="btn btn-danger">
+                                            <i class="fas fa-window-close"></i> Deshabilitar
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${puestostrabajo == null or puestostrabajo.empty}" class="col">
+                        <p class="alert alert-warning">No existen puestos de trabajo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
